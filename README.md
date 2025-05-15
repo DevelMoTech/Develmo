@@ -71,36 +71,36 @@ ollama pull nomic-embed-text
 # Install dependencies
             pip install -r requirements.txt
 
-### Run backend server
+## Run backend server
             cd /your/project/path
             conda activate ollama_env
             python app.py
 
-### 2. Frontend Installation
+## 2. Frontend Installation
             cd ../frontend
 
-### Install dependencies
+## Install dependencies
             npm install
 
-### Configure environment
+## Configure environment
             cp .env.example .env.local
             nano .env.local  # Set your API endpoints
 
-### Development mode
+## Development mode
             npm run dev
 
-### Production build
+## Production build
             npm run build
             npm run preview
 
-### Admin Dashboard
-            Access /admin after setup to:
+## Admin Dashboard
+Access /admin after setup to:
 
-            Upload/manage knowledge documents (PDF, DOCX, TXT)
+Upload/manage knowledge documents (PDF, DOCX, TXT)
 
-            Monitor system performance
+Monitor system performance
 
-            Manage user permissions
+Manage user permissions
 
-            View conversation logs
+View conversation logs
 
