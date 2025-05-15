@@ -1,6 +1,6 @@
 # Enterprise RAG-Powered Chatbot 🚀
 
-![System Overview]("image.png")
+![System Overview]("Back-end/image.png")
 
 A production-ready chatbot solution with Retrieval-Augmented Generation (RAG) capabilities, designed for enterprise environments. Combines React.js frontend, Python backend, and Ollama AI integration for powerful, context-aware conversations.
 
