@@ -1,6 +1,6 @@
 # Enterprise RAG-Powered Chatbot 🚀
 
-![System Overview]("Back-end/image.png")
+![Backend Architecture](Back-end/image.png)
 
 A production-ready chatbot solution with Retrieval-Augmented Generation (RAG) capabilities, designed for enterprise environments. Combines React.js frontend, Python backend, and Ollama AI integration for powerful, context-aware conversations.
 
@@ -44,56 +44,56 @@ The system follows a modular 3-tier architecture:
 ## 🛠️ Installation Guide
 
 ### Prerequisites
-- [Ollama](https://ollama.com/) installed and running
-- [Python 3.13.3+](https://www.python.org/downloads/)
-- [Node.js 18+](https://nodejs.org/)
-- [Git](https://git-scm.com/)
+            - [Ollama](https://ollama.com/) installed and running
+            - [Python 3.13.3+](https://www.python.org/downloads/)
+            - [Node.js 18+](https://nodejs.org/)
+            - [Git](https://git-scm.com/)
 
 ### 1. Backend Installation
 
 ## Install required AI models
+ollama run llama3.2-vision:11b
 ollama pull nomic-embed-text
-ollama pull llama3.2-vision:11b
 
 # Verify installation
-ollama list
-# Clone repository
-git clone https://github.com/your-repo/enterprise-chatbot.git
-cd enterprise-chatbot/backend
+            ollama list
+            # Clone repository
+            https://github.com/DevelMoTech/DevelmoGPT.git
+            cd DevelmoGPT/backend
 
-# Create virtual environment (recommended)
-python -m venv venv
-source venv/bin/activate  # Linux/macOS
-# venv\Scripts\activate  # Windows
+# Create conda environment (recommended)
+            conda create --name Ollama_env python=3.13.3
+            cd /your/project/path
+            conda activate ollama_env
+
+
 
 # Install dependencies
-pip install -r requirements.txt
+            pip install -r requirements.txt
 
-# Configure environment variables
-cp .env.example .env
-nano .env  # Edit with your settings
-
-# Run backend server
-uvicorn app:app --reload --host 0.0.0.0 --port 8000
+### Run backend server
+            cd /your/project/path
+            conda activate ollama_env
+            python app.py
 
 ### 2. Frontend Installation
-cd ../frontend
+            cd ../frontend
 
-# Install dependencies
-npm install
+### Install dependencies
+            npm install
 
-# Configure environment
-cp .env.example .env.local
-nano .env.local  # Set your API endpoints
+### Configure environment
+            cp .env.example .env.local
+            nano .env.local  # Set your API endpoints
 
-# Development mode
-npm run dev
+### Development mode
+            npm run dev
 
-# Production build
-npm run build
-npm run preview
+### Production build
+            npm run build
+            npm run preview
 
-## Admin Dashboard
+### Admin Dashboard
             Access /admin after setup to:
 
             Upload/manage knowledge documents (PDF, DOCX, TXT)
