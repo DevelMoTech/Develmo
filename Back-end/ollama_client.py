@@ -31,7 +31,7 @@ def generate_response(prompt):
                 "stream": False,
                 "options": {
                     "temperature": 0.7,
-                    "num_ctx": 4096  # Larger context window
+                    "num_ctx": 8000  # Larger context window
                 }
             },
             timeout=120
