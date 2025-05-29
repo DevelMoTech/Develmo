@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Enterprise RAG-Powered Chatbot 🚀
 
 ![Backend Architecture](Back-end/image.png)
@@ -104,3 +105,6 @@ Manage user permissions
 
 View conversation logs
 
+=======
+# Develmo
+>>>>>>> 715fea3622883ac33179fd711d87601dd69508dd
