@@ -526,3 +526,112 @@
     grid-template-columns: 1fr;
   }
 }
+/* File Upload Styles */
+.fileInput {
+  display: none;
+}
+
+.fileUploadLabel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  min-height: 200px;
+}
+
+.fileUploadLabel:hover {
+  border-color: #666;
+}
+
+.fileSize {
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 0.5rem;
+}
+
+.fileTypes {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 0.5rem;
+}
+
+.removeFileButton {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background: #085A8C;
+  border: 1px solid #085A8C;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.removeFileButton:hover {
+  background: #085A8C;
+}
+
+/* Upload Options Layout */
+.uploadOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.uploadMethod {
+  padding: 1.5rem;
+  border: 1px solid #eee;
+  border-radius: 8px;
+}
+
+.orDivider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #666;
+}
+
+.orDivider::before,
+.orDivider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #eee;
+}
+
+.orDivider::before {
+  margin-right: 1rem;
+}
+
+.orDivider::after {
+  margin-left: 1rem;
+}
+
+/* Progress Bar */
+.progressBarContainer {
+  width: 100%;
+  background-color: #f1f1f1;
+  border-radius: 4px;
+  margin: 1rem 0;
+  position: relative;
+}
+
+.progressBar {
+  height: 20px;
+  background-color: #4CAF50;
+  border-radius: 4px;
+  width: 0;
+  transition: width 0.3s ease;
+}
+
+.progressBarContainer span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 0.8rem;
+}
