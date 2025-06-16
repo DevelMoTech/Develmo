@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import os
 import numpy as np
@@ -33,7 +33,7 @@ SUPPORTED_EXTENSIONS = {
 
 # Memory stores (only for chat history)
 CHAT_HISTORY = deque(maxlen=10)
-SYSTEM_PROMPT = """You are an intelligent, articulate, and knowledgeable assistant called Nexus. Your role is to provide accurate, well-structured information while maintaining a professional yet approachable tone.
+SYSTEM_PROMPT = """You are an intelligent, articulate, and knowledgeable assistant called DevelMoGPT. Your role is to provide accurate, well-structured information while maintaining a professional yet approachable tone.
 
 Key Response Guidelines:
 1. Always be precise, clear, and concise
@@ -146,6 +146,20 @@ def chat():
     # Add to conversation history
     CHAT_HISTORY.append({"role": "user", "content": query})
     
+    # Simple greeting handling
+    if re.match(r'^(hi|hello|hey)\b', query, re.IGNORECASE) or re.search(r'\bhow are you\b', query, re.IGNORECASE):
+        greeting_response = (
+            "Hello! I'm DevelMoGPT, your assistant. I'm doing well, thank you for asking! "
+            "How can I help you today?"
+        )
+        CHAT_HISTORY.append({"role": "assistant", "content": greeting_response})
+        return jsonify({
+            "reply": greeting_response,
+            "sources": [],
+            "timestamps": [],
+            "confidence_scores": []
+        })
+    
     try:
         # Retrieve relevant documents from FAISS
         documents, distances = retrieve_document_from_faiss(query, top_k=3)
@@ -156,7 +170,7 @@ def chat():
             context_parts.append(
                 f"DOCUMENT REFERENCE: {doc_id}\n"
                 f"CONTENT EXCERPT:\n"
-                f"{doc_text[:1000]}\n"  # Limit excerpt length
+                f"{doc_text[:1000]}\n"
                 f"----\n"
             )
         context = "\n".join(context_parts) if context_parts else "No relevant documents found"
@@ -168,7 +182,7 @@ def chat():
         # Post-process response
         response = polish_response(response)
         
-        # Store conversation
+        # Store assistant response
         CHAT_HISTORY.append({"role": "assistant", "content": response})
         
         return jsonify({
@@ -187,6 +201,31 @@ def chat():
             "sources": [],
             "timestamps": []
         }), 500
+
+# Add this new route to your Flask backend (app.py)
+@app.route("/list_documents", methods=["GET"])
+def list_documents():
+    docs = []
+    for filename in os.listdir(DOCUMENTS_DIR):
+        if filename.endswith(".txt"):
+            doc_id = os.path.splitext(filename)[0]
+            docs.append({
+                "id": doc_id,
+                "timestamp": get_document_timestamp(doc_id),
+                "format": get_document_format(doc_id)
+            })
+    return jsonify(docs)
+
+def get_document_format(doc_id):
+    try:
+        with open(f"{DOCUMENTS_DIR}/{doc_id}.txt", "r", encoding="utf-8") as f:
+            for line in f:
+                if line.startswith("ORIGINAL_FORMAT:"):
+                    return line.split("ORIGINAL_FORMAT:")[1].strip()
+    except:
+        pass
+    return "text"
+    #return send_from_directory(DOCUMENTS_DIR, filename, as_attachment=False)
 
 def get_document_timestamp(doc_id):
     try:

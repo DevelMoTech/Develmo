@@ -16,7 +16,7 @@ import {
   FiRefreshCw,
   FiThumbsUp,
   FiThumbsDown,
-  FiSettings,
+  FiSettings, 
 } from "react-icons/fi";
 import { BsRobot, BsMoon, BsSun } from "react-icons/bs";
 

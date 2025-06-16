@@ -16,8 +16,7 @@
   background: #021C26;
   border-right: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
-  flex-direction: column;
-  padding: 20px;
+  flex-direction: column;  padding: 20px;
   box-sizing: border-box;
 }
 
@@ -634,4 +633,185 @@
   transform: translate(-50%, -50%);
   color: white;
   font-size: 0.8rem;
+}
+/* Add these styles to your existing CSS */
+.documentInfo {
+  flex: 1;
+  overflow: hidden;
+  margin-left: 10px;
+}
+
+.documentId {
+  font-size: 14px;
+  font-weight: 500;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.documentMeta {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+  display: block;
+}
+
+.documentsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.documentCard {
+  background: rgba(2, 28, 38, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 16px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.documentCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.documentHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.documentActions {
+  display: flex;
+  gap: 8px;
+}
+
+.viewButton, .deleteButton {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.viewButton {
+  background: rgba(8, 90, 140, 0.2);
+  border: 1px solid rgba(8, 90, 140, 0.3);
+  color: #085A8C;
+}
+
+.viewButton:hover {
+  background: rgba(8, 90, 140, 0.3);
+}
+
+.deleteButton {
+  background: rgba(239, 68, 68, 0.2);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #ef4444;
+}
+
+.deleteButton:hover {
+  background: rgba(239, 68, 68, 0.3);
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.documentModal {
+  background: #021C26;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  width: 80%;
+  max-width: 800px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+}
+
+.modalHeader {
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modalHeader h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.closeModal {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s ease;
+}
+
+.closeModal:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.modalContent {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.modalContent pre {
+  white-space: pre-wrap;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.modalFooter {
+  padding: 16px 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.modalButton {
+  padding: 8px 16px;
+  background: #085A8C;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.modalButton:hover {
+  background: #0a6ca6;
 }

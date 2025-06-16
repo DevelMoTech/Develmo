@@ -18,6 +18,8 @@ export default function AdminDashboard() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [filePreview, setFilePreview] = useState(null);
+  const [showDocumentModal, setShowDocumentModal] = useState(false);
+  const [currentDocument, setCurrentDocument] = useState(null);
 
   const BACKEND_API_URL = "http://127.0.0.1:5010";
 
@@ -57,7 +59,8 @@ export default function AdminDashboard() {
       setLoading(true);
       const response = await axios.get(`${BACKEND_API_URL}/list_documents`);
       if (response.status === 200) {
-        setDocuments(response.data.documents || []);
+        // Ensure we're setting the documents array correctly
+        setDocuments(response.data || []);
       }
       setLoading(false);
     } catch (error) {
@@ -70,9 +73,8 @@ export default function AdminDashboard() {
     const file = e.target.files[0];
     if (file) {
       setSelectedFile(file);
-      setDocId(file.name.split('.')[0]); // Auto-set doc ID from filename
+      setDocId(file.name.split('.')[0]);
       
-      // Create preview for images/PDFs
       if (file.type.startsWith('image/')) {
         const reader = new FileReader();
         reader.onload = (e) => setFilePreview(e.target.result);
@@ -96,7 +98,6 @@ export default function AdminDashboard() {
       let response;
       
       if (selectedFile) {
-        // File upload
         const formData = new FormData();
         formData.append('file', selectedFile);
         formData.append('data_id', docId);
@@ -110,7 +111,6 @@ export default function AdminDashboard() {
           }
         });
       } else {
-        // Text content upload
         response = await axios.post(`${BACKEND_API_URL}/store_data/`, {
           text: docContent,
           data_id: docId
@@ -123,8 +123,6 @@ export default function AdminDashboard() {
         if (activeTab === 'view') {
           await fetchDocuments();
         }
-      } else {
-        alert('Error storing document');
       }
     } catch (error) {
       console.error('Error storing document:', error);
@@ -160,6 +158,27 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleViewDocument = async (docId) => {
+    try {
+      setLoading(true);
+      const response = await axios.get(`${BACKEND_API_URL}/documents/${docId}`);
+      if (response.status === 200) {
+        // Extract content after metadata
+        const content = response.data.split('\n').slice(2).join('\n');
+        setCurrentDocument({
+          id: docId,
+          content: content
+        });
+        setShowDocumentModal(true);
+      }
+    } catch (error) {
+      console.error('Error fetching document:', error);
+      alert('Failed to load document. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleLogout = () => {
     setShowLogoutConfirm(true);
   };
@@ -169,7 +188,7 @@ export default function AdminDashboard() {
   };
 
   const filteredDocuments = documents.filter(doc => 
-    doc.toLowerCase().includes(searchQuery.toLowerCase())
+    doc.id.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   if (status !== 'authenticated') {
@@ -201,6 +220,34 @@ export default function AdminDashboard() {
                 onClick={confirmLogout}
               >
                 Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Document View Modal */}
+      {showDocumentModal && currentDocument && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.documentModal}>
+            <div className={styles.modalHeader}>
+              <h3>Document: {currentDocument.id}</h3>
+              <button 
+                className={styles.closeModal}
+                onClick={() => setShowDocumentModal(false)}
+              >
+                &times;
+              </button>
+            </div>
+            <div className={styles.modalContent}>
+              <pre>{currentDocument.content}</pre>
+            </div>
+            <div className={styles.modalFooter}>
+              <button 
+                className={styles.modalButton}
+                onClick={() => setShowDocumentModal(false)}
+              >
+                Close
               </button>
             </div>
           </div>
@@ -421,31 +468,33 @@ export default function AdminDashboard() {
             ) : (
               <div className={styles.documentsGrid}>
                 {filteredDocuments.length > 0 ? (
-                  filteredDocuments.map((doc, index) => (
-                    <div key={index} className={styles.documentCard}>
+                  filteredDocuments.map((doc) => (
+                    <div key={doc.id} className={styles.documentCard}>
                       <div className={styles.documentHeader}>
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M9 12H15M9 8H15M9 16H12M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
-                        <span className={styles.documentId}>{doc}</span>
+                        <div className={styles.documentInfo}>
+                          <span className={styles.documentId}>{doc.id}</span>
+                          <span className={styles.documentMeta}>
+                            {new Date(doc.timestamp).toLocaleDateString()} • {doc.format}
+                          </span>
+                        </div>
                       </div>
-                      <div className={styles.documentActions}>
+                      {/* <div className={styles.documentActions}>
                         <button 
                           className={styles.viewButton}
-                          onClick={() => {
-                            // Implement view functionality if needed
-                            alert(`Viewing document: ${doc}`);
-                          }}
+                          onClick={() => handleViewDocument(doc.id)}
                         >
                           View
                         </button>
                         <button 
                           className={styles.deleteButton}
-                          onClick={() => handleDeleteDocument(doc)}
+                          onClick={() => handleDeleteDocument(doc.id)}
                         >
                           Delete
                         </button>
-                      </div>
+                      </div> */}
                     </div>
                   ))
                 ) : (
