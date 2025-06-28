@@ -55,17 +55,19 @@ The system follows a modular 3-tier architecture:
 ## Install required AI models
 ollama run llama3.2-vision:11b
 ollama pull nomic-embed-text
+ollama list 
 
 # Verify installation
             ollama list
             # Clone repository
-            https://github.com/DevelMoTech/DevelmoGPT.git
-            cd DevelmoGPT/backend
+            https://github.com/DevelMoTech/DevelmoGPT.git // new 
+            cd Develmo rag_project
 
 # Create conda environment (recommended)
             conda create --name Ollama_env python=3.13.3
             cd /your/project/path
             conda activate ollama_env
+        pip freeze > requirements.txt
 
 
 
@@ -78,7 +80,7 @@ ollama pull nomic-embed-text
             python app.py
 
 ## 2. Frontend Installation
-            cd ../frontend
+            cd ../rag_chatbot 
 
 ## Install dependencies
             npm install
